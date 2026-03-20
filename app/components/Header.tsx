@@ -17,7 +17,7 @@ const Header = () => {
                     <Nav />
                     <Link href="/contact">
                         <button className="hidden sm:block bg-accent text-primary px-4 py-2 rounded-full font-bold hover:bg-accent-hover transition-all font-sans">
-                            Hire me
+                            Contact me
                         </button>
                     </Link>
                 </div>

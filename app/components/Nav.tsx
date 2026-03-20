@@ -5,10 +5,11 @@ import { usePathname } from "next/navigation";
 
 const links = [
     { name: "Home", path: "/"},
-    { name: "Projects", path: "/projects" },
-    { name: "Experience", path: "/experience" },
+    { name: "Resume", path: "/resume" },
+    { name: "Projects", path: "/project" },
+    { name: "Experience", path: "/resume#experience" },
+    // TODO: credit: https://nebbee.artstation.com/projects/GXJnP1
     { name: "About", path: "/about" },
-    { name: "Contact", path: "/contact" },
 ]
 
 const Nav = () => {
@@ -20,6 +21,7 @@ const Nav = () => {
                     <Link
                         href={link.path}
                         key={index}
+                        scroll={true}
                         className={
                         `${link.path === pathname && "text-accent border-b-2 border-accent"
                         } capitalize font-medium hover:text-accent transition-all`}

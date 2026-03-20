@@ -4,7 +4,7 @@ import { FaGithub, FaLinkedin } from "react-icons/fa";
 
 const socials = [
     { icon: <FaGithub />, path: "https://github.com/Natalie-2004" },
-    { icon: <FaLinkedin />, path: "https://www.linkedin.com/in/lixuan-ye-926853236/" },
+    { icon: <FaLinkedin />, path: "https://www.linkedin.com/in/natalieye2004" },
     { icon: <Mail />, path: "mailto:1103625169lixuan@gmail.com" },
 ]
 
