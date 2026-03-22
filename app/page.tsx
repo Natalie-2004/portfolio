@@ -16,7 +16,7 @@ export default function Home() {
                        </span>
 
                         <h1 className="my-6">
-                            <span className="block font-bold text-6xl lg:text-7xl tracking-[0.10em] text-white/80 mb-1">
+                            <span className="block font-bold text-6xl lg:text-7xl tracking-[0.10em] text-white mb-1">
                                   Hello I&apos;m
                             </span>
                             <span className="block font-bold text-6xl lg:text-7xl tracking-[0.10em] text-accent leading-none">
@@ -32,7 +32,7 @@ export default function Home() {
 
                         {/* avatar */}
                         <div className="flex flex-col lg:flex-row items-center gap-8">
-                            <a href="/Natalie_resume.pdf" download target="_blank">
+                            <a href="/api/media/docs/Natalie_resume.pdf" download target="_blank">
                                 <button className="uppercase flex items-center gap-2 border border-accent text-accent hover:bg-accent hover:text-primary transition-all px-6 py-3 rounded-full font-bold tracking-wider">
                                     <span className="text-sm">Download CV</span>
                                     <Download className="text-lg" />

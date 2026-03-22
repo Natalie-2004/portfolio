@@ -1,25 +1,25 @@
-import Link from "next/link";
 import Nav from "./Nav";
+import TransitionLink from "./TransitionLink";
 
 const Header = () => {
     return (
         <header className="py-8 xl:py-6 text-white">
             <div className="w-full flex justify-between items-center">
                 {/*    Logo section*/}
-                <Link href="/">
+                <TransitionLink href="/">
                     <h1 className="text-4xl font-semibold font-primary">
                         Natalie<span className="text-accent">.</span>
                     </h1>
-                </Link>
+                </TransitionLink>
 
                 {/*    navbar section*/}
                 <div className="flex items-center gap-4 md:gap-8">
                     <Nav />
-                    <Link href="/contact">
-                        <button className="hidden sm:block bg-accent text-primary px-4 py-2 rounded-full font-bold hover:bg-accent-hover transition-all font-sans">
+                    <TransitionLink href="/contact">
+                        <button type="button" className="hidden sm:block bg-accent text-primary px-4 py-2 rounded-full font-bold hover:bg-accent-hover transition-all font-sans">
                             Contact me
                         </button>
-                    </Link>
+                    </TransitionLink>
                 </div>
 
                 {/* TODO: 3. Mobile Nav */}

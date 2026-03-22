@@ -5,10 +5,82 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client"
-  output   = "../app/generated/prisma"
+  provider = "prisma-client-js"
+  engineType = "library"
 }
 
 datasource db {
   provider = "postgresql"
+}
+
+model MediaAsset {
+  id         String         @id @default(cuid())
+  key        String         @unique
+  fileName   String
+  mimeType   String
+  byteSize   Int
+  data       Bytes
+  createdAt  DateTime       @default(now())
+  updatedAt  DateTime       @updatedAt
+  images     ProjectImage[]
+}
+
+model Project {
+  id         String        @id @default(cuid())
+  slug       String        @unique
+  title      String
+  tech       String
+  status     String
+  detail     Boolean       @default(false)
+  showStatus Boolean       @default(true)
+  sortOrder  Int           @default(0)
+  summary    String?
+  overview   String?
+  context    String?
+  duration   String?
+  role       String[]      @default([])
+  challenges String[]      @default([])
+  solutions  String[]      @default([])
+  outcomes   String[]      @default([])
+  points     ProjectPoint[]
+  images     ProjectImage[]
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
+}
+
+model ProjectPoint {
+  id        String   @id @default(cuid())
+  projectId String
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  content   String
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([projectId, sortOrder])
+}
+
+model ProjectImage {
+  id        String     @id @default(cuid())
+  projectId String
+  project   Project    @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  mediaId   String
+  media     MediaAsset @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  alt       String
+  width     Int?
+  height    Int?
+  sortOrder Int        @default(0)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  @@index([projectId, sortOrder])
+  @@index([mediaId])
+}
+
+model ResumeContent {
+  id         String   @id @default(cuid())
+  key        String   @unique
+  body       Json
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }

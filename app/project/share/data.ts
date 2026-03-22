@@ -1,10 +1,28 @@
+export type ProjectImage = {
+    src: string;
+    alt: string;
+    width?: number;
+    height?: number;
+};
+
+type ProjectCardData = {
+    slug: string;
+    title: string;
+    tech: string;
+    status: string;
+    detail: boolean;
+    showStatus?: boolean;
+    points: string[];
+    images?: ProjectImage[];
+};
+
 export const projectDataDetail = [
     {
         slug: "hub-service-foundation",
         title: "Hub Service Foundation",
         context: "Company Project",
         duration: "Jun 2025 – Present",
-        tech: ["TypeScript", "Fastify", "JWT (jose)", "Stripe", "PostgreSQL", "Redis", "React", "Vite", "Vercel"],
+        tech: ["React", "TypeScript", "Fastify", "JWT", "Stripe", "PostgreSQL", "Redis"],
         status: "In Progress",
 
         summary:
@@ -86,7 +104,7 @@ Due to company policy/NDA, no live demo link or source code is shared.
     },
 ];
 
-export const projectData = [
+export const projectData: ProjectCardData[] = [
     {
         slug: "hub-service-foundation",
         title: "Hub Service Foundation",
@@ -94,6 +112,20 @@ export const projectData = [
         status: "In Progress",
         detail: false,
         showStatus: false,
+        images: [
+            {
+                src: "/images/projects/hub-service/hub-service-01.png",
+                alt: "Hub Service directory page",
+                width: 2048,
+                height: 1120,
+            },
+            {
+                src: "/images/projects/hub-service/hub-service-02.png",
+                alt: "Hub Service upgrade plan page",
+                width: 2048,
+                height: 1120,
+            },
+        ],
         points: [
             "Hub gateway/BFF in front of internal tools; verifies identity/session and enforces membership-gated access (~200 paid users).",
             "Proxies trusted requests to downstream apps (e.g., NeedsCalc) and handles Stripe checkout + webhook membership upgrades."
@@ -106,14 +138,46 @@ export const projectData = [
         status: "In Progress",
         detail: false,
         showStatus: false,
+        images: [
+            {
+                src: "/images/projects/needs-calc/needs-calc-01.png",
+                alt: "Needs Calculator client info page",
+                width: 2048,
+                height: 1120,
+            },
+            {
+                src: "/images/projects/needs-calc/needs-calc-02.png",
+                alt: "Needs Calculator detailed calculations page",
+                width: 2048,
+                height: 1120,
+            },
+        ],
         points: [
             "Insurance needs calculator app (frontend + backend) integrated with Hub for centralized auth/membership.",
             "Primary contribution: refactoring and hardening multi-step validation + calculation flows while keeping behavior stable."
         ]
     },
     {
+        slug: "personal-portfolio",
+        title: "Personal Portfolio",
+        tech: "Next.js, TypeScript, React, SQL, UI/UX Design",
+        status: "Complete",
+        detail: false,
+        images: [
+            {
+                src: "/images/projects/personal-portfolio/personal-portfolio-01.png",
+                alt: "Personal portfolio homepage screenshot",
+                width: 2048,
+                height: 1280,
+            },
+        ],
+        points: [
+            "A personal project showcase my passon in coding.",
+        ]
+    },
+    {
         slug: "airbrb",
-        title: "Airbrb",
+        title: "Airbnb",
         tech: "React, JavaScript, Jest, UI/UX Design",
         status: "In Progress",
         detail: false,
@@ -123,13 +187,64 @@ export const projectData = [
         ]
     },
     {
-        slug: "personal-portfolio",
-        title: "Personal Portfolio",
-        tech: "Next.js, TypeScript, React, SQL, UI/UX Design",
-        status: "Complete",
+        slug: "bittrickle",
+        title: "BitTrickle",
+        tech: "Java, TCP, UDP",
+        status: "Completed",
         detail: false,
+        images: [
+            {
+                src: "/images/projects/bittrickle/bittrickle-01.png",
+                alt: "BitTrickle file sharing architecture diagram",
+                width: 2048,
+                height: 1280,
+            },
+            {
+                src: "/images/projects/bittrickle/bittrickle-02.png",
+                alt: "BitTrickle socket connection flow",
+                width: 2048,
+                height: 1280,
+            },
+            {
+                src: "/images/projects/bittrickle/bittrickle-03.png",
+                alt: "BitTrickle message format table",
+                width: 2048,
+                height: 1280,
+            },
+            {
+                src: "/images/projects/bittrickle/bittrickle-04.png",
+                alt: "BitTrickle terminal interaction example",
+                width: 2048,
+                height: 1280,
+            },
+            {
+                src: "/images/projects/bittrickle/bittrickle-05.png",
+                alt: "BitTrickle additional project screenshot",
+                width: 2048,
+                height: 1280,
+            },
+            {
+                src: "/images/projects/bittrickle/bittrickle-06.png",
+                alt: "BitTrickle additional project screenshot 2",
+                width: 2048,
+                height: 1280,
+            },
+            {
+                src: "/images/projects/bittrickle/bittrickle-07.png",
+                alt: "BitTrickle additional project screenshot 3",
+                width: 2048,
+                height: 1280,
+            },
+            {
+                src: "/images/projects/bittrickle/bittrickle-08.png",
+                alt: "BitTrickle additional project screenshot 4",
+                width: 2048,
+                height: 1280,
+            },
+        ],
         points: [
-            "A personal portfolio showcase designed with Bento Grid layout.",
+            "Developed a peer-to-peer file-sharing system enabling reliable transfer over unreliable networks.",
+            "Implemented custom handshake protocols and congestion control."
         ]
     },
     {
@@ -141,17 +256,6 @@ export const projectData = [
         points: [
             "Full-stack campground review platform with user authentication and RESTful API.",
             "Deployed on Render with a cloud database integration."
-        ]
-    },
-    {
-        slug: "bittrickle",
-        title: "BitTrickle",
-        tech: "Java, TCP, UDP",
-        status: "Completed",
-        detail: false,
-        points: [
-            "Developed a peer-to-peer file-sharing system enabling reliable transfer over unreliable networks.",
-            "Implemented custom handshake protocols and congestion control."
         ]
     }
 ];

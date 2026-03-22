@@ -1,5 +1,8 @@
+"use client";
+
 import Image from "next/image";
-import { Gamepad2, Heart, Info, Sparkles, Trophy } from "lucide-react";
+import { Code2, Gamepad2, Heart, Info, Sparkles, Trophy } from "lucide-react";
+import { useEffect, useState } from "react";
 
 function Pill({ children }: { children: React.ReactNode }) {
     return (
@@ -46,7 +49,29 @@ function Card({
 }
 
 export default function About() {
-    const coreGames = ["Hollow Knight", "Elden Ring", "Slay the Spire", "Terraria", "Civ6", "Stardew Valley"];
+    const [isScrolled, setIsScrolled] = useState(false);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            setIsScrolled(window.scrollY > 50);
+        };
+        window.addEventListener("scroll", handleScroll);
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, []);
+
+    const skillMetrics = [
+        { name: "TypeScript", years: 3, projects: 12, confidence: 87 },
+        { name: "React / Next.js", years: 3, projects: 10, confidence: 85 },
+        { name: "Java + Spring Boot", years: 2, projects: 7, confidence: 78 },
+        { name: "Node.js / Express", years: 2, projects: 8, confidence: 80 },
+        { name: "PostgreSQL", years: 2, projects: 6, confidence: 75 },
+        { name: "Docker + CI", years: 1, projects: 5, confidence: 68 },
+    ];
+
+    const acknowledgements = [
+        { title: "Artwork Credit", credit: "Bee Bates — Hollow Knight fan art used for my avatar" },
+        { title: "UI Inspiration", credit: "Miya (from RedNote) — visual design inspiration" },
+    ];
 
     type SteamGame = {
         title: string;
@@ -82,23 +107,68 @@ export default function About() {
 
     return (
         <section className="max-w-5xl mx-auto">
-            <h2 className="font-bold mb-8 flex items-center gap-3 text-3xl text-accent">
-                <Info /> A Bit More About ME
-            </h2>
+            <div className="flex flex-col items-center transition-all duration-300 ease-in-out">
+                <h1
+                    className={`
+                        text-center font-serif font-bold italic leading-none tracking-wider
+                        transition-all duration-500 ease-in-out
+                        ${isScrolled ? "mb-8 text-4xl md:text-5xl mt-0" : "mb-12 text-5xl md:text-7xl mt-4"}
+                    `}
+                >
+                    <span className="text-white">More About </span>
+                    <span className="text-accent">ME</span>
+                </h1>
+            </div>
 
             <div className="grid gap-6">
                 <Card icon={<Sparkles />} title="Heya!">
                     <p>
-                        I&apos;m a Computer Science student at UNSW (graduating 2026) and a full-stack developer.
+                        I&apos;m a Computer Science student at UNSW (graduating 2026) and a full-stack developer. Here are some things about me.
                     </p>
                     <div className="flex flex-wrap gap-2 pt-1">
                         <Pill>UNSW CS • 2026</Pill>
                         <Pill>Gamer</Pill>
                         <Pill>Badminton Lover</Pill>
+                        <Pill>Swimer</Pill>
                         <Pill>DIY PCs</Pill>
                         <Pill>Animes</Pill>
                     </div>
                 </Card>
+
+                {/* <Card icon={<Code2 />} title="Skills">
+                    <p>
+                        I enjoy building full-stack features end-to-end, from polished frontend interactions to backend APIs and data models.
+                        I care a lot about clean structure, maintainable code, and thoughtful UI details.
+                    </p>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+                        {skillMetrics.map((skill) => (
+                            <div
+                                key={skill.name}
+                                className="rounded-xl border border-white/10 bg-white/5 p-3 transition-colors duration-300 group-hover:border-black/20 group-hover:bg-black/10"
+                            >
+                                <div className="flex items-center justify-between gap-3">
+                                    <h4 className="font-semibold text-white transition-colors duration-300 group-hover:text-black">
+                                        {skill.name}
+                                    </h4>
+                                    <span className="text-xs font-bold text-accent transition-colors duration-300 group-hover:text-black">
+                                        {skill.confidence}%
+                                    </span>
+                                </div>
+
+                                <div className="mt-2 h-1.5 rounded-full bg-white/10 overflow-hidden">
+                                    <div
+                                        className="h-full rounded-full bg-accent transition-[width] duration-500"
+                                        style={{ width: `${skill.confidence}%` }}
+                                    />
+                                </div>
+
+                                <p className="mt-2 text-xs text-white/65 transition-colors duration-300 group-hover:text-black/65">
+                                    {skill.years} years • {skill.projects} projects
+                                </p>
+                            </div>
+                        ))}
+                    </div>
+                </Card> */}
 
                 <Card icon={<Gamepad2 />} title="Gaming">
                     <p>
@@ -226,9 +296,21 @@ export default function About() {
                         . Both were fast-paced, people-facing roles that sharpened communication and staying calm under pressure.
                     </p>
                     <div className="flex flex-wrap gap-2 pt-1">
-                        <Pill>2024 • Royal Easter Show</Pill>
-                        <Pill>2024 • Vivid Sydney</Pill>
-                        <Pill>Sydney</Pill>
+                        <Pill>Royal Easter Show</Pill>
+                        <Pill>Vivid Sydney</Pill>
+                    </div>
+                </Card>
+
+                <Card icon={<Info />} title="Credits">
+                    <div className="space-y-2">
+                        {acknowledgements.map((item) => (
+                            <p key={item.title}>
+                                <span className="text-white/90 font-medium transition-colors duration-300 group-hover:text-black">
+                                    {item.title}:
+                                </span>{" "}
+                                {item.credit}
+                            </p>
+                        ))}
                     </div>
                 </Card>
             </div>

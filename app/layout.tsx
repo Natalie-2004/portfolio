@@ -4,6 +4,7 @@ import "./globals.css";
 import React, {ReactNode} from "react";
 
 import Header from "./components/Header";
+import { PageTransitionProvider } from "./components/PageTransitionProvider";
 
 const jetbrainsMono = JetBrains_Mono({
     subsets: ["latin"],
@@ -36,12 +37,14 @@ export default function RootLayout({
   return (
     <html lang="en">
     <body className={`${jetbrainsMono.variable} ${inter.variable} ${courierPrime.variable} antialiased bg-primary text-white leading-relaxed font-primary`}>
-        <div className="mx-auto max-w-[1024px] w-full px-6 md:px-12 min-h-screen flex flex-col">
+        <PageTransitionProvider>
+          <div className="mx-auto max-w-[1024px] w-full px-6 md:px-12 min-h-screen flex flex-col">
             <Header />
             <main className="flex-grow flex flex-col justify-center">
-                {children}
+              {children}
             </main>
-        </div>
+          </div>
+        </PageTransitionProvider>
     </body>
     </html>
   );

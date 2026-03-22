@@ -1,16 +1,107 @@
-import { Terminal, Loader2, ArrowUpRight } from "lucide-react";
+"use client";
+
+import { Loader2, ArrowUpRight } from "lucide-react";
 import { projectData } from "./share/data";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import ProjectGalleryModal from "./components/ProjectGalleryModal";
+import type { ProjectImage } from "./share/data";
+
+type ProjectCardData = {
+    slug: string;
+    title: string;
+    tech: string;
+    status: string;
+    detail: boolean;
+    showStatus?: boolean;
+    points: string[];
+    images?: ProjectImage[];
+};
+
+const DOUBLE_STRUCK_DIGITS: Record<string, string> = {
+    "0": "𝟘",
+    "1": "𝟙",
+    "2": "𝟚",
+    "3": "𝟛",
+    "4": "𝟜",
+    "5": "𝟝",
+    "6": "𝟞",
+    "7": "𝟟",
+    "8": "𝟠",
+    "9": "𝟡",
+};
+
+function toDoubleStruck(n: number) {
+    return n
+        .toString()
+        .padStart(2, "0")
+        .split("")
+        .map((d) => DOUBLE_STRUCK_DIGITS[d] ?? d)
+        .join("");
+}
 
 export default function Project() {
+    const [isScrolled, setIsScrolled] = useState(false);
+    const [activeProjectIndex, setActiveProjectIndex] = useState<number | null>(null);
+    const [projects, setProjects] = useState<ProjectCardData[]>(projectData);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            setIsScrolled(window.scrollY > 50);
+        };
+        window.addEventListener("scroll", handleScroll);
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, []);
+
+    useEffect(() => {
+        let cancelled = false;
+
+        const loadProjects = async () => {
+            try {
+                const response = await fetch("/api/projects", { cache: "no-store" });
+                if (!response.ok) return;
+                const payload = (await response.json()) as ProjectCardData[];
+                if (!cancelled && payload.length > 0) {
+                    setProjects(payload);
+                }
+            } catch {
+                // Keep local static fallback data when DB/API is unavailable.
+            }
+        };
+
+        void loadProjects();
+        return () => {
+            cancelled = true;
+        };
+    }, []);
+
+    const activeProject = activeProjectIndex !== null ? projects[activeProjectIndex] : null;
+
+    const closeGallery = () => {
+        setActiveProjectIndex(null);
+    };
+
+    const openGallery = (index: number) => {
+        setActiveProjectIndex(index);
+    };
+
     return (
         <section className="max-w-5xl mx-auto">
-            <h2 className="font-bold mb-8 flex items-center gap-3 text-3xl text-accent">
-                <Terminal /> Projects
-            </h2>
+            <div className="flex flex-col items-center transition-all duration-300 ease-in-out">
+                <h1
+                    className={`
+                        text-center font-serif text-accent tracking-wider font-bold italic leading-none
+                        transition-all duration-500 ease-in-out
+                        ${isScrolled ? "mb-8 text-4xl md:text-5xl mt-0" : "mb-12 text-5xl md:text-7xl mt-4"}
+                    `}
+                >
+                    Projects
+                </h1>
+            </div>
 
             <div className="flex flex-col gap-6">
-                {projectData.map((project, index) => {
+                {projects.map((project, index) => {
+                    const hasGallery = Boolean(project.images?.length);
                     const card = (
                         <div
                             className={`
@@ -18,25 +109,21 @@ export default function Project() {
                             border border-white/10 bg-white/5 
                             transition-all duration-300 ease-out
                             
-                            /* Hover Effects: 背景变 Accent，边框变 Accent */
                             hover:bg-accent hover:border-accent hover:scale-[1.01] hover:shadow-lg
                         `}>
 
-                            {/* 01. 左侧大数字 (Miya 风格) */}
                             <div className="flex-shrink-0">
                                 <span className={`
-                                    text-6xl font-black font-serif opacity-20
-                                    text-white 
+                                    text-7xl font-black font-serif
+                                    text-white/30
                                     transition-colors duration-300
                                     
-                                    /* Hover: 数字颜色变深，显得更融合 */
-                                    group-hover:text-black/20 group-hover:opacity-100
+                                    group-hover:text-white
                                 `}>
-                                    {(index + 1).toString().padStart(2, '0')}
+                                    {toDoubleStruck(index + 1)}
                                 </span>
                             </div>
 
-                            {/* 02. 右侧内容区域 */}
                             <div className="flex-grow w-full">
                                 <div className="flex justify-between items-start mb-3">
                                     <div>
@@ -73,7 +160,7 @@ export default function Project() {
                                             />
                                         )}
 
-                                        {project.status === "In Progress" && (project as any).showStatus !== false && (
+                                        {project.status === "In Progress" && project.showStatus !== false && (
                                             <span className={`
                                                 flex items-center gap-1 text-[10px] uppercase font-bold px-2 py-1 rounded
                                                 border transition-colors duration-300
@@ -107,6 +194,20 @@ export default function Project() {
                         </div>
                     );
 
+                    if (hasGallery) {
+                        return (
+                            <button
+                                type="button"
+                                key={index}
+                                className="block w-full text-left group cursor-pointer"
+                                onClick={() => openGallery(index)}
+                                aria-label={`Open ${project.title} gallery`}
+                            >
+                                {card}
+                            </button>
+                        );
+                    }
+
                     return project.detail ? (
                         <Link
                             href={`/project/${project.slug}`}
@@ -122,6 +223,13 @@ export default function Project() {
                     );
                 })}
             </div>
+
+            <ProjectGalleryModal
+                title={activeProject?.title ?? ""}
+                images={activeProject?.images ?? []}
+                open={Boolean(activeProject)}
+                onClose={closeGallery}
+            />
         </section>
     )
 }

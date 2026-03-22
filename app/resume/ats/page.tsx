@@ -2,76 +2,49 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
-import { contactInfo, educationInfo, experience, projectData, skillsData } from "../share/data";
 
-function safeTrim(s: string) {
-  return s.replace(/\s+/g, " ").trim();
-}
+const ATS_RESUME_TEXT = `Natalie Ye
+North Sydney, NSW | +61 416 896 732 | 1103625169lixuan@gmail.com | LinkedIn | GitHub
 
-function bullets(lines: string[], indent = "") {
-  return lines.map((l) => `${indent}- ${safeTrim(l)}`).join("\n");
-}
+Education
+Bachelor of Science (BSc) in Computer Science
+University of New South Wales (UNSW), Sydney, NSW
+Feb 2023 - Nov 2026
 
-function buildAtsText() {
-  const name = "Natalie Ye";
-  const title = "Software Developer";
+Technical Skills
+Languages: Java, Python, C, JavaScript/TypeScript, Rust, SQL/PostgreSQL
+Frameworks and Tools: React, Node.js, Express/Next.js, Fastify, Bootstrap5, MongoDB
+Development Tools: Docker, Vercel, Git, SSH, LaTeX, Shell
 
-  const contacts = contactInfo
-    .map((c) => {
-      if (!c.href) return safeTrim(String(c.text));
-      if (c.href.startsWith("mailto:")) return safeTrim(c.href.replace("mailto:", ""));
-      return safeTrim(c.href);
-    })
-    .filter(Boolean);
+Experience
+Full-Stack Web Developer Intern
+Risk Hub, Kirrawee NSW, Remote
+June 2025 - March 2026
+- Developed a full-stack centralized user management application using TypeScript and Fastify within a 3-person agile team, serving authentication and subscription features for 200+ enterprise clients.
+- Engineered a secure JWT-based authentication flow using the jose library to enable Single Sign-On (SSO) and ensure seamless identity propagation across multiple integrated applications, improving about 30% of authentication efficiency.
+- Implemented a session hydration mechanism to synchronize real-time subscription status from PostgreSQL, resolving data consistency issues between Stripe payment webhooks and user sessions.
 
-  const sections: string[] = [];
+AI Trainer (Language)
+Outlier, US, Remote
+July 2024 - May 2025
+- Reviewed and refined 300+ AI-generated code and text samples, maintaining consistent quality standards across technical content types.
+- Delivered structured feedback reports on code accuracy and semantic correctness, contributing to AI model performance improvements.
 
-  sections.push(name);
-  sections.push(title);
-  sections.push(contacts.join(" | "));
-  sections.push("");
+Technical Projects
+Yelp Camp | JavaScript, Node.js, Express.js, MongoDB | Link | Feb 2025 - May 2025
+- Built campground review platform with 6+ RESTful API endpoints supporting complete CRUD operations for users, campgrounds, and reviews.
+- Implemented Passport.js authentication with session management, enabling secure user access control for 20+ active test users.
+- Developed middleware for error handling and input validation, achieving 40% fewer API response errors during user testing phase.
 
-  sections.push("PROFILE SUMMARY");
-  sections.push(
-    safeTrim(
-      "Solution-driven Computer Science student with about 1 year of experience in full-stack web development. Proficient in React, TypeScript/JavaScript and Java. Currently building scalable web solutions at Risk Hub."
-    )
-  );
-  sections.push("");
+BitTrickle | JAVA, UDP, TCP | Oct 2024 - Nov 2024
+- Developed P2P file-sharing system with 5+ core commands and real-time peer discovery functionality.
+- Implemented error handling middleware and input validation, ensuring robust API responses and secure data processing for user interactions.
+- Built heartbeat protocol and authentication mechanisms, maintaining 95%+ system uptime with automatic peer reconnection capabilities.
 
-  sections.push("EDUCATION");
-  for (const edu of educationInfo) {
-    sections.push(`${safeTrim(edu.school)} — ${safeTrim(edu.degree)} (${safeTrim(edu.year)})`);
-  }
-  sections.push("");
-
-  sections.push("SKILLS");
-  sections.push(`Languages: ${skillsData.languages.join(", ")}`);
-  sections.push(`Frameworks: ${skillsData.frameworks.join(", ")}`);
-  sections.push(`Tools: ${skillsData.tools.join(", ")}`);
-  sections.push("");
-
-  sections.push("EXPERIENCE");
-  for (const job of experience) {
-    const header = `${safeTrim(job.role)} — ${safeTrim(job.company)} (${safeTrim(job.location)}) | ${safeTrim(job.duration)}`;
-    sections.push(header);
-    if ("techStack" in job && typeof (job as any).techStack === "string" && (job as any).techStack.trim()) {
-      sections.push(`Tech: ${safeTrim((job as any).techStack)}`);
-    }
-    sections.push(bullets(job.points, ""));
-    sections.push("");
-  }
-
-  sections.push("PROJECTS");
-  for (const p of projectData) {
-    const header = `${safeTrim(p.title)} | ${safeTrim(p.tech)} | ${safeTrim(p.status)}`;
-    sections.push(header);
-    sections.push(bullets(p.points, ""));
-    sections.push("");
-  }
-
-  return sections.join("\n").replace(/\n{3,}/g, "\n\n").trim() + "\n";
-}
+Co-curriculum and Certificates
+- Certificates: Cambridge IGCSE Computer Science, NSW Government Digital Job Simulation, WWCC.
+- Volunteers: Sydney Royal Easter Show and Vivid Festival - Logistics coordination and visitor engagement, demonstrating strong interpersonal skills in high-volume environments.
+`;
 
 async function copyToClipboard(text: string) {
   if (navigator.clipboard?.writeText) {
@@ -93,7 +66,7 @@ async function copyToClipboard(text: string) {
 }
 
 export default function AtsResumePage() {
-  const atsText = useMemo(() => buildAtsText(), []);
+  const atsText = useMemo(() => ATS_RESUME_TEXT, []);
   const [copyState, setCopyState] = useState<"idle" | "copied" | "error">("idle");
   const [isCopying, setIsCopying] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -149,7 +122,7 @@ export default function AtsResumePage() {
               {isCopying ? "Copying..." : "Copy"}
             </button>
             <a
-              href="/Natalie_resume.pdf"
+              href="/api/media/docs/Natalie_resume.pdf"
               download
               target="_blank"
               className="px-5 py-2 rounded-full font-bold tracking-wide uppercase text-sm border border-white/30 text-white hover:border-accent hover:text-accent transition"

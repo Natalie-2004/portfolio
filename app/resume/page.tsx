@@ -32,7 +32,7 @@ export default function Resume() {
                         transition-all duration-500 ease-in-out
                         ${isScrolled ? "opacity-0 h-0 overflow-hidden mb-0" : "opacity-100 h-auto"}
                     `}>
-                        <a href="../Natalie_resume.pdf" download target="_blank">
+                        <a href="/api/media/docs/Natalie_resume.pdf" download target="_blank">
                             <button className="flex items-center gap-2 border border-accent text-accent px-6 py-2 rounded-full hover:bg-accent hover:text-primary transition font-bold text-sm tracking-wide uppercase">
                                 <Download size={16} /> Download CV
                             </button>
@@ -95,8 +95,8 @@ export default function Resume() {
                             <User /> Profile Summary
                         </h2>
                         <p className="leading-relaxed text-white/70 text-lg">
-                            Solution-driven Computer Science student with about 1 year of experience in full-stack web development.
-                            Proficient in React, TypeScript/JavaScript and Java. Currently building scalable web solutions at Risk Hub.
+                            Solution-driven Computer Science student with hands-on full-stack web development experience.
+                            Proficient in React, TypeScript/JavaScript and Java, with recent internship work focused on users authentication and subscription systems at Risk Hub.
                         </p>
                     </section>
 
@@ -127,7 +127,7 @@ export default function Resume() {
                         <h2 className="font-bold mb-4 flex items-center gap-3 text-2xl text-accent">
                             <Code /> Skills
                         </h2>
-                        <div className="flex flex-col space-y-3 text-base">
+                        <div className="flex flex-col space-y-3 text-base text-lg">
                             <div className="flex flex-col sm:flex-row sm:items-start gap-1 sm:gap-4">
                                 <span className="font-bold text-white min-w-[110px]">Languages:</span>
                                 <span className="text-white/80 leading-relaxed">
@@ -158,18 +158,18 @@ export default function Resume() {
                         </h2>
                         <div className="space-y-10">
                             {experience.map((job, index) => {
-                                const isPresent = job.duration.includes("Present");
+                                const isMostRecent = index === 0;
                                 return (
                                     <div
                                         key={index}
                                         className={`relative pl-8 border-l-2
-                                        ${isPresent ? "border-accent" : "border-gray-300/40"}
+                                        ${isMostRecent ? "border-accent" : "border-gray-300/40"}
                                       `}
                                     >
 
                                     <span className={
                                         `absolute -left-[9px] top-0 w-4 h-4 rounded-full 
-                                        ${job.duration.includes("Present") ? "bg-accent" : "bg-gray-300"}
+                                        ${isMostRecent ? "bg-accent" : "bg-gray-300"}
                                     `}
                                     ></span>
 
