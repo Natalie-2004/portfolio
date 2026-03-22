@@ -10,6 +10,26 @@ const allowedOrigins = (process.env.CORS_ORIGIN || "http://localhost:3000")
   .map((s) => s.trim())
   .filter(Boolean);
 
+function escapeRegExp(value) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+function isOriginAllowed(origin) {
+  return allowedOrigins.some((allowed) => {
+    if (allowed === origin) {
+      return true;
+    }
+    if (!allowed.includes("*")) {
+      return false;
+    }
+
+    const wildcardRegex = new RegExp(
+      `^${allowed.split("*").map(escapeRegExp).join("[^.]+")}$`
+    );
+    return wildcardRegex.test(origin);
+  });
+}
+
 const SMTP_HOST = process.env.SMTP_HOST;
 const SMTP_PORT = Number(process.env.SMTP_PORT || 587);
 const SMTP_SECURE = String(process.env.SMTP_SECURE || "false") === "true";
@@ -60,7 +80,7 @@ function isValidEmail(email) {
 app.use(
   cors({
     origin(origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
+      if (!origin || isOriginAllowed(origin)) {
         callback(null, true);
         return;
       }
