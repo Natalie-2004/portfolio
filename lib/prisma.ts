@@ -1,7 +1,6 @@
 import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaNeon } from "@prisma/adapter-neon";
 import { PrismaClient } from "@prisma/client";
-import { Pool } from "pg";
 
 const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined;
@@ -15,11 +14,7 @@ if (!connectionString) {
 const useNeonAdapter = connectionString.includes("neon.tech");
 const adapter = useNeonAdapter
   ? new PrismaNeon({ connectionString })
-  : new PrismaPg(
-      new Pool({
-        connectionString,
-      })
-    );
+  : new PrismaPg({ connectionString });
 
 export const prisma =
   globalForPrisma.prisma ??
