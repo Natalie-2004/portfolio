@@ -69,6 +69,20 @@ export default function ProjectGalleryModal({
     };
   }, [open, onClose, canNavigate, imageCount]);
 
+  useEffect(() => {
+    if (!open || imageCount <= 1) return;
+
+    const nextIndex = (activeIndex + 1) % imageCount;
+    const previousIndex = (activeIndex - 1 + imageCount) % imageCount;
+    const candidates = [images[nextIndex], images[previousIndex]];
+
+    for (const candidate of candidates) {
+      if (!candidate?.src) continue;
+      const preloadedImage = new window.Image();
+      preloadedImage.src = candidate.src;
+    }
+  }, [open, activeIndex, imageCount, images]);
+
   if (!open || imageCount === 0 || !currentImage) return null;
 
   return (

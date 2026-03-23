@@ -58,7 +58,7 @@ export default function Project() {
 
         const loadProjects = async () => {
             try {
-                const response = await fetch("/api/projects", { cache: "no-store" });
+                const response = await fetch("/api/projects");
                 if (!response.ok) return;
                 const payload = (await response.json()) as ProjectCardData[];
                 if (!cancelled && payload.length > 0) {
@@ -132,7 +132,7 @@ export default function Project() {
                                             text-white
                                             transition-colors duration-300
                                             
-                                            /* Hover: 标题变深色 */
+                                            /* Hover: darker title */
                                             group-hover:text-black
                                         `}>
                                             {project.title}
@@ -142,14 +142,14 @@ export default function Project() {
                                             text-accent
                                             transition-colors duration-300
                                             
-                                            /* Hover: 技术栈文字变深灰色 */
+                                            /* Hover: darker tech text */
                                             group-hover:text-black/70
                                         `}>
                                             {project.tech}
                                         </span>
                                     </div>
 
-                                    {/* 右上角图标或状态 */}
+                                    {/* Top-right status */}
                                     <div className="flex flex-col items-end gap-2">
                                         {project.detail && (
                                             <ArrowUpRight
@@ -165,10 +165,10 @@ export default function Project() {
                                                 flex items-center gap-1 text-[10px] uppercase font-bold px-2 py-1 rounded
                                                 border transition-colors duration-300
                                                 
-                                                /* 默认状态: 黄色 */
+                                                /* Default: yellow */}
                                                 text-yellow-400 border-yellow-400/20 bg-yellow-400/5
                                                 
-                                                /* Hover状态: 变成深色背景以适应亮色底 */
+                                                /* Hover: dark style */}
                                                 group-hover:bg-black/10 group-hover:text-black group-hover:border-black/20
                                             `}>
                                                 <Loader2 size={10} className="animate-spin" /> WIP
@@ -177,13 +177,13 @@ export default function Project() {
                                     </div>
                                 </div>
 
-                                {/* 文字描述列表 */}
+                                {/* Bullet list */}
                                 <ul className={`
                                     list-disc list-outside ml-5 space-y-2 text-base
                                     text-white/60
                                     transition-colors duration-300
                                     
-                                    /* Hover: 描述文字变深色 */
+                                    /* Hover: darker text */
                                     group-hover:text-black/80
                                 `}>
                                     {project.points.map((point, i) => (
