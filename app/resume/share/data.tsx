@@ -48,7 +48,7 @@ export const experience = [
         points: [
             "Developed a full-stack centralized user management application using TypeScript and Fastify within a 3-person agile team, serving authentication and subscription features for 200+ enterprise clients.",
             "Engineered a secure JWT-based authentication flow with the jose library to support SSO and seamless identity propagation across integrated applications, improving authentication efficiency by around 30%.",
-            "Implemented a session hydration mechanism to synchronize real-time subscription status from PostgreSQL, resolving consistency issues between Stripe webhooks and user sessions."
+            "Implemented a mechanism to synchronize real-time subscription status from PostgreSQL, resolving consistency issues between Stripe webhooks and user sessions."
         ],
     },
     {

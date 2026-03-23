@@ -1,6 +1,6 @@
 "use client";
 
-import { Download, FileText, User, University, Code, Briefcase, Terminal, Loader2 } from "lucide-react";
+import { Download, FileText, User, University, Code, Briefcase } from "lucide-react";
 import Link from "next/link";
 import { contactInfo, educationInfo, skillsData, experience, projectData } from "./share/data";
 import {useEffect, useState} from "react";
@@ -96,7 +96,7 @@ export default function Resume() {
                         </h2>
                         <p className="leading-relaxed text-white/70 text-lg">
                             Solution-driven Computer Science student with hands-on full-stack web development experience.
-                            Proficient in React, TypeScript/JavaScript and Java, with recent internship work focused on users authentication and subscription systems at Risk Hub.
+                            Proficient in React, TypeScript/JavaScript and Java, with recent internship work focused on user authentication and subscription systems at Risk Hub.
                         </p>
                     </section>
 
