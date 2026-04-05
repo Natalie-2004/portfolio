@@ -106,6 +106,20 @@ Due to company policy/NDA, no live demo link or source code is shared.
 
 export const projectData: ProjectCardData[] = [
     {
+        slug: "cybermatchmaker",
+        title: "CyberMatchmaker",
+        tech: "React, NestJS, TypeScript, Prisma, Multi-Agent, RAG",
+        status: "In Progress",
+        detail: false,
+        showStatus: true,
+        points: [
+            "An AI-powered dating prep app that profiles users through conflict-goal roleplay scenarios, replacing questionnaires with behavioural observation.",
+            "Co-created with a team of 5 and reached the penultimate round at AI Hackathon Tour 2026 (ModelScope X Datawhale).",
+            "Proposed the core concept and led product and scenario design.",
+            "Attracting 200K+ RMB in seed investment.",
+        ]
+    },
+    {
         slug: "hub-service-foundation",
         title: "Hub Service Foundation",
         tech: "TypeScript, Fastify, Stripe, PostgreSQL/Redis, Vercel",
@@ -127,8 +141,9 @@ export const projectData: ProjectCardData[] = [
             },
         ],
         points: [
-            "Hub gateway/BFF in front of internal tools; verifies identity/session and enforces membership-gated access (~200 paid users).",
-            "Proxies trusted requests to downstream apps (e.g., NeedsCalc) and handles Stripe checkout + webhook membership upgrades."
+            "Built a centralised auth and membership gateway serving 200+ enterprise clients across multiple internal tools.",
+            "Integrated JWT-based SSO, membership-gated access control and Stripe checkout + webhook subscription flow.",
+            "Designed a secure BFF proxy pattern to shield downstream apps from direct public access, injecting trust headers for internal service-to-service auth."
         ]
     },
     {
@@ -153,8 +168,8 @@ export const projectData: ProjectCardData[] = [
             },
         ],
         points: [
-            "Insurance needs calculator app (frontend + backend) integrated with Hub for centralized auth/membership.",
-            "Primary contribution: refactoring and hardening multi-step validation + calculation flows while keeping behavior stable."
+            "Insurance app that calculates individual's insurance needs, integrated with Hub for centralized auth/membership.",
+            "Refactored and strengthened multi-step validation + calculation flows while keeping initial behaviour."
         ]
     },
     {
@@ -172,7 +187,7 @@ export const projectData: ProjectCardData[] = [
             },
         ],
         points: [
-            "A personal project showcase my passon in coding.",
+            "A personal project showcase my passon.",
         ]
     },
     {

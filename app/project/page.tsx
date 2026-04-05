@@ -18,6 +18,21 @@ type ProjectCardData = {
     images?: ProjectImage[];
 };
 
+function mergeProjectsBySlug(localProjects: ProjectCardData[], remoteProjects: ProjectCardData[]): ProjectCardData[] {
+    const remoteBySlug = new Map(remoteProjects.map((project) => [project.slug, project]));
+
+    // Local data is the source of truth for overlapping slugs.
+    const mergedLocalFirst = localProjects.map((localProject) => ({
+        ...(remoteBySlug.get(localProject.slug) ?? {}),
+        ...localProject,
+    }));
+
+    const localSlugs = new Set(localProjects.map((project) => project.slug));
+    const remoteOnly = remoteProjects.filter((project) => !localSlugs.has(project.slug));
+
+    return [...mergedLocalFirst, ...remoteOnly];
+}
+
 const DOUBLE_STRUCK_DIGITS: Record<string, string> = {
     "0": "𝟘",
     "1": "𝟙",
@@ -62,7 +77,7 @@ export default function Project() {
                 if (!response.ok) return;
                 const payload = (await response.json()) as ProjectCardData[];
                 if (!cancelled && payload.length > 0) {
-                    setProjects(payload);
+                    setProjects(mergeProjectsBySlug(projectData, payload));
                 }
             } catch {
                 // Keep local static fallback data when DB/API is unavailable.
@@ -198,7 +213,7 @@ export default function Project() {
                         return (
                             <button
                                 type="button"
-                                key={index}
+                                key={project.slug}
                                 className="block w-full text-left group cursor-pointer"
                                 onClick={() => openGallery(index)}
                                 aria-label={`Open ${project.title} gallery`}
@@ -211,13 +226,13 @@ export default function Project() {
                     return project.detail ? (
                         <Link
                             href={`/project/${project.slug}`}
-                            key={index}
+                            key={project.slug}
                             className="block group"
                         >
                             {card}
                         </Link>
                     ) : (
-                        <div key={index} className="block group cursor-default">
+                        <div key={project.slug} className="block group cursor-default">
                             {card}
                         </div>
                     );
